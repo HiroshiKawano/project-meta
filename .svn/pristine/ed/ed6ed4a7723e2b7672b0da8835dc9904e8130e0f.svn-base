@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<title>アカウント作成</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<h1>アカウント作成</h1>
+	<h2>メールアドレスとパスワードの登録</h2>
+
+
+	<div class="FormatBox">
+		<form th:action="@{/createaccount_confirmation}" method="POST">
+			<p>
+				メールアドレス：<input type="text" name="mail" th:value=${session.userdb_model.mail} /><br />
+				<!-- 新規登録のメールアドレスが既にDB内に存在する際にはこのページに戻って"登録済みのメールアドレスです"を表示 -->
+				<span class=error th:if="${mailCheckFalse}" th:text="登録済みのメールアドレスです"></span>
+				<span class=error th:if="${#fields.hasErrors('userdb_model.mail')}" th:errors="${userdb_model.mail}" ></span>
+			</p>
+			<p>
+				パスワード：<input type="password" name="pw" /><br />
+				<span class=error th:if="${#fields.hasErrors('userdb_model.pw')}" th:errors="${userdb_model.pw}" ></span>
+			</p>
+			<p><input type="submit" /></p>
+		</form>
+	</div>
+
+</body>
+</html>

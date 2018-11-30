@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" />
+	<title>Book_Info</title>
+	<style type="text/css">
+		th,td{ border: 1px solid #ccc; padding : 1em;}
+	</style>
+</head>
+<body>
+	<table>
+	<tr>
+		<th>ID</th>
+		<th>図書名</th>
+		<th>著者名</th>
+		<th>出版社</th>
+		<th>出版年</th>
+		<th>件名</th>
+		<th>分類</th>
+		<th>ISBN</th>
+		<th>検索日時</th>
+		<th>userID</th>
+	</tr>
+	<tr th:each="shlist: ${shList}">
+		<td th:text="${shlist.id}"></td>
+		<td th:text="${shlist.title}"></td>
+		<td th:text="${shlist.authorname}"></td>
+		<td th:text="${shlist.publishername}"></td>
+		<td th:text="${shlist.publicationyear}"></td>
+		<td th:text="${shlist.subject}"></td>
+		<td th:text="${shlist.classification}"></td>
+		<td th:text="${shlist.isbn}"></td>
+		<td th:text="${shlist.date}"></td>
+		<td th:text="${shlist.userID}"></td>
+	</tr>
+	</table>
+</body>
+</html>

@@ -1,0 +1,81 @@
+package com.meta.db;
+
+import java.io.File;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+@Controller
+public class JacksonTest{
+
+	@Autowired SearchHistoryDB shDB;
+	@Autowired SearchHistoryRepository shRepository;
+
+	private ObjectMapper mappter = new ObjectMapper();
+
+	@RequestMapping(value="/json_to_object")
+    public String jackson_test(Model model) throws Exception{
+		TestObj obj = new TestObj();
+		obj.setA("abc");
+		obj.setB(123);
+		obj.setC(new String[]{"a","b","c"});
+		String json = mappter.writeValueAsString(obj);
+		model.addAttribute("json", json);
+    	return "json.html";
+    }
+
+	@RequestMapping(value="/object_to_json")
+    public String jackson_test2(Model model) throws Exception{
+		File file = new File("./target/classes/static/test.js");
+		TestObj obj = mappter.readValue(file, TestObj.class);
+		System.out.println(obj.getA());
+		System.out.println(obj.getB());
+		String json = mappter.writeValueAsString(obj);
+		model.addAttribute("json", json);
+    	return "json.html";
+    }
+
+	@RequestMapping(value="/abc",method=RequestMethod.POST)
+	public String abc(
+			@RequestParam(value="book_title",required=false) String title,
+			@RequestParam(value="book_isbn10",required=false) String isbn10,
+			@RequestParam(value="book_isbn13",required=false) String isbn13,
+			@ModelAttribute(value="shDB")SearchHistoryDB shDB,
+			Model model
+			) throws Exception {
+		System.out.println(title);
+		System.out.println(isbn10);
+		System.out.println(isbn13);
+		//bookapi.html上にタイトルとISBNを表示
+		model.addAttribute("title",title);
+		model.addAttribute("isbn10",isbn10);
+		model.addAttribute("isbn13",isbn13);
+
+		shDB.setTitle(title);
+		shDB.setIsbn(isbn10);
+		shDB.setIsbn(isbn13);
+
+		shRepository.saveAndFlush(shDB);
+
+		BookService BService = new BookService();
+		BService.service(isbn10);
+		BService.service(isbn13);
+
+		return "bookapi.html";
+
+	}
+	@RequestMapping(value="/abc",method=RequestMethod.GET)
+	public String abc(
+			) {
+
+		return "bookapi.html";
+	}
+
+}

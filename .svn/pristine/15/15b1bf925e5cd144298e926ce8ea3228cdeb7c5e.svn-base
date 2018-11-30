@@ -1,0 +1,17 @@
+package com.meta.db;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name="book")
+public class Book {
+	private BookSystem bs;
+
+	@XmlElement(name="system")
+	public BookSystem getBs() {
+		return bs;
+	}
+	public void setBs(BookSystem bs) {
+		this.bs = bs;
+	}
+}

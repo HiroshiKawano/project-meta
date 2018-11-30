@@ -1,0 +1,87 @@
+package com.meta.db;
+
+import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="searchhistory")
+public class SearchHistoryDB {
+
+	@Id private Integer id;
+	private String title; //図書名
+	private String authorName; //著者名
+	private String publisherName; //出版社
+	private java.sql.Date publicationYear; //出版年
+	private String subject; //件名
+	private String classification; //分類
+	private int isbn; //ISBN
+	private java.sql.Date date; //検索日時
+	private int userID; //検索したUserのID
+
+	//getter郡
+	public Integer getId() {
+		return id;
+	}
+	public String getAuthor_name() {
+		return authorName;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public int getIsbn() {
+		return isbn;
+	}
+	public java.sql.Date getDate() {
+		return date;
+	}
+	public int getUser_ID() {
+		return userID;
+	}
+	public String getPublisher_name() {
+		return publisherName;
+	}
+	public Date getPublication_year() {
+		return publicationYear;
+	}
+	public String getSubject() {
+		return subject;
+	}
+	public String getClassification() {
+		return classification;
+	}
+
+	//setter郡
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public void setIsbn(int isbn) {
+		this.isbn = isbn;
+	}
+	public void setDate(java.sql.Date date) {
+		this.date = date;
+	}
+	public void setUser_ID(int user_ID) {
+		this.userID = user_ID;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public void setAuthor_name(String author_name) {
+		this.authorName = author_name;
+	}
+	public void setPublisher_name(String publisher_name) {
+		this.publisherName = publisher_name;
+	}
+	public void setPublication_year(java.sql.Date publication_year) {
+		this.publicationYear = publication_year;
+	}
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+	public void setClassification(String classification) {
+		this.classification = classification;
+	}
+}

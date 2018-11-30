@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+                                                                               <!-- gogoleMapsAPIキー -->
+<script src="https://maps.googleapis.com/maps/api/js?language=ja&region=JP&key=○○○&callback=initMap" async defer></script>
+<style>
+	/*googleMapの表示領域*/
+    #target {
+      width: 1000px;
+      height: 400px;
+    }
+  </style>
+</head>
+<body>
+<div id="target"></div>
+<button id="link">rest</button>
+<!--  <p></p> -->
+<script th:inline="text">
+  // var json = [(${j})];
+  // console.log(json);
+
+var obj ; //-ajax通信の外でobj変数を用意しておく
+var target = document.getElementById('target');
+var map;
+
+var okinawa = {lat: 26.212359, lng: 127.680973};
+var infoWindow;
+
+
+//②mapを描画
+function initMap() {
+  'use strict';
+
+  // mapのオプション
+  map = new google.maps.Map(target, {
+    center: okinawa, //基準となる地図の中心位置
+    zoom: 15,//初期ズームレベル
+  });
+}// end function
+
+//clickメソッド
+$('#link').click(function(){ // ③id linkのbuttonをクリックしたらajax通信を行う
+	//④ajaxメソッド
+	$.ajax({
+		type: "POST", //- HTTP通信の種類
+		url: "rest",  //- http://localhost:8080/restにアクセス
+		dataType: "json", //- サーバーから返されるデータの型
+		async:false,//同期通信
+		success: function(data,status){ //- a(第１引数):データ、b(第２引数):ステータス404等
+					obj  = data;
+					console.log(data);
+					console.log(status);
+		},
+		error : function(){alert('error');}//ステータスがエラーの場合
+	});//end ajax
+
+	for(var i=0;i < obj.length;i++){ //⑨サーバーからのデータを加工
+		info = obj[i].libkey+ "<br>" + obj[i].lending;//infoに表示する文字列を改行付
+		winOpen(obj[i].lat,obj[i].lng,info); //- winOpen関数を呼び出し、指定した緯度経度にinfoの内容を表示
+		//$('p').text(obj[i].lat + obj[i].lng + obj[i].info); //- データをpタグに表示
+	}
+}); // end click
+
+function winOpen(mylat,mylng,myinfo){ //⑩googleMaps上の指定位置に情報を表示
+    //情報ウィンドウを表示
+    infoWindow = new google.maps.InfoWindow({
+      position: {lat:Number(mylat) , lng: Number(mylng)},//位置情報
+       content: myinfo,//吹き出しで表示する内容
+      maxWidth: 100
+    });
+    infoWindow.open(map);
+}
+
+</script>
+
+</body>
+</html>

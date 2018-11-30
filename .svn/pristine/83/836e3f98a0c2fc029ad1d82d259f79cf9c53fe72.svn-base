@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymelear.org">
+<head>
+	<meta charset="utf-8">
+	<title>ようこそ</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+
+	<h1>ようこそ</h1>
+
+	<h2>ログイン</h2>
+
+	<div class="FormatBox">
+		<form th:action="@{/login_check}" method="POST">
+			<p>
+				メールアドレス：<input type="text" name="mail" th:value="${session.userdb_model.mail}"/><br />
+				<!-- メールアドレスの登録がはじかれた場合にメッセージ表示 -->
+				<span class=error th:if="${mailCheckFalse}" th:text="未登録のメールアドレスです"></span>
+			</p>
+			<p>
+				パスワード：<input type="password" name="pw" /><br />
+				<!-- メールアドレスの登録がはじかれた場合に下記メッセージ表示 -->
+				<span class=error th:if="${passCheckFalse}" th:text="パスワードが一致しません"></span>
+			</p>
+			<p><input type="submit" /></p>
+		</form>
+	</div>
+
+
+<body>
+
+</body>
+</html>

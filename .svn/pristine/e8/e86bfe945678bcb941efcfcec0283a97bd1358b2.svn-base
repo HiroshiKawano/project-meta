@@ -1,0 +1,6 @@
+package com.meta.db;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface LibraryRepository extends JpaRepository<LibraryApi,Integer> {
+}

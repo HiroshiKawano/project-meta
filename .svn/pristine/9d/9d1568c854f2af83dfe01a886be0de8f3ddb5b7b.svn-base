@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>フロントページのテスト</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+	<h1>ようこそ</h1>
+
+	<div class="FormatBox">
+		<form th:action="@{/createaccount}" method="post">
+			<p><input class="button" type="submit" value="新規登録" /></p>
+		</form>
+		<form th:action="@{/login}" method="post">
+			<p><input class="button" type="submit" value="ログイン" /></p>
+		</form>
+	</div>
+
+
+
+
+</body>
+</html>

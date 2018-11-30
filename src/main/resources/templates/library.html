@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" />
+	<title>Book_Info</title>
+	<style type="text/css">
+		th,td{ border: 1px solid #ccc; padding : 1em;}
+	</style>
+</head>
+<body>
+	<form method="POST" action="/library/serch">
+		<table class="sample-table">
+			<tr>
+				<th>図書検索</th>
+				<td><input type="text" name="meta" value="" size="30"></input></td>
+			</tr>
+		</table>
+			<input type="submit" value="送信" size="30"></input>
+			<font color="#ff0000"><th:block th:text="${errorMessage}"></th:block></font>
+	</form>
+
+	<table>
+	<tr>
+		<th>ID</th>
+		<th>地域ID</th>
+		<th>地域名</th>
+		<th>本館別館等</th>
+		<th>本館別館等も含めた図書館ID</th>
+		<th>地域名</th>
+		<th>正式名称</th>
+		<th>図書館HP</th>
+		<th>住所</th>
+		<th>市町村</th>
+		<th>郵便番号</th>
+		<th>電話番号</th>
+		<th>位置情報</th>
+		<th>lat</th>
+		<th>long</th>
+		<th>国際標準識別子</th>
+		<th>現在位置</th>
+	</tr>
+	<tr th:each="lib: ${libList}">
+		<td th:text="${lib.id}"></td>
+		<td th:text="${lib.systemid}"></td>
+		<td th:text="${lib.systemname}"></td>
+		<td th:text="${lib.libkey}"></td>
+		<td th:text="${lib.libid}"></td>
+		<td th:text="${lib.shortname}"></td>
+		<td th:text="${lib.formal}"></td>
+		<td th:text="${lib.url_pc}"></td>
+		<td th:text="${lib.address}"></td>
+		<td th:text="${lib.city}"></td>
+		<td th:text="${lib.post}"></td>
+		<td th:text="${lib.tel}"></td>
+		<td th:text="${lib.geocode}"></td>
+		<td th:text="${lib.lat}"></td>
+		<td th:text="${lib.long2}"></td>
+		<td th:text="${lib.isil}"></td>
+		<td th:text="${lib.distance}"></td>
+	</tr>
+	</table>
+</body>
+</html>

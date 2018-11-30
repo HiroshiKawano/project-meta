@@ -1,0 +1,105 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<title>沖縄県内蔵書検索</title>
+
+<link type="text/css" rel="stylesheet" href="main_style.css">
+
+    <script>
+    $(document).ready(function(){
+	    var key = encodeURI("東野圭吾");
+	    var max = 40;
+	    var start = 0;
+
+	    $("#content").click(function(){
+	        //検索文字
+	        key = encodeURI($("#q").val());
+	        //ページング
+	        start = $("#page option:selected").val();
+	        if(start >= 1){start = max * start;}
+	        console.log(start);
+	    	//取得件数
+	    	max = $("#max option:selected").val();
+	    	book_search(key,max,start);
+	    });
+	});
+
+	function book_search(key,max,start){
+		var items = null;
+		var obj = null;
+		$.ajax({
+	       type : "GET",
+	       url : "https://www.googleapis.com/books/v1/volumes",
+	       data: "q=" + key + "&country=JP&maxResults=" + max + "&startIndex=" + start,
+	       dataType: "jsonp",
+	       success: function(data){
+	           obj = data;
+	           items = obj.items;
+	           console.log(items);
+	           var text = "<p>";
+
+               for(var i = 0; i < items.length; i++){
+                  text = text + '<span id="book' + i + '">' + "【タイトル】" + items[i].volumeInfo.title +
+                  '</span></br>【著者】' + items[i].volumeInfo.authors +
+                  '</br>【ISBN】' + items[i].volumeInfo.industryIdentifiers[0].identifier +
+                  '</br>------------------------------------------------------------------</br>';
+               }
+               $('#contents').append(text + '</p>');
+               $('#contents').append("----------------");
+               $('#contents span').bind('click',function(){
+            	  attr_id = $(this).attr('id').substring(4);
+                  $('form').append('<input type="hidden" name="book_title" value="' + items[attr_id].volumeInfo.title + '">');
+                  $('form').append('<input type="hidden" name="book_isbn10" value="' + items[attr_id].volumeInfo.industryIdentifiers[0].identifier + '">');
+                  $('form').append('<input type="hidden" name="book_isbn13" value="' + items[attr_id].volumeInfo.industryIdentifiers[0].identifier + '">');
+               });
+	      }
+	    });
+
+	}
+  </script>
+
+  </head>
+  <body>
+  <h1>沖縄県内蔵書検索</h1>
+<ul id="menu">
+  <li><a href="#">TOP</a></li>
+  <li><a href="#">最近の検索</a></li>
+  <li><a href="#">マイページ</a></li>
+  <li><a href="#">ログイン</a></li>
+  <li><a href="#">新規登録</a></li>
+</ul>
+<div class="clear">
+<h2>検索条件</h2>
+</div>
+    <p>キーワード検索：<input type="text" id="q" value=""></p>
+    <p>検索結果ページ：<select id="page">
+      <option value="0">1</option>
+      <option value="1">2</option>
+      <option value="2">3</option>
+      <option value="3">4</option>
+    </select>
+    検索結果表示数：<select id="max">
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+      <option value="40">40</option>
+    </select>
+    </p>
+    <button id="content">検　索</button>
+    <form action="./abc" method="post">
+    <div id="contents">
+
+    </div>
+    <input type="submit">
+    </form>
+	<!-- JacsonTest.javaのmodel.addAttributeから -->
+    <p th:text="${title}"></p>
+    <p th:text="${isbn10}"></p>
+    <p th:text="${isbn13}"></p>
+
+    <script>
+
+    </script>
+  </body>
+</html>

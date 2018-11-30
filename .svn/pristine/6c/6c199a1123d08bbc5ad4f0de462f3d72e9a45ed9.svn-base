@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymelear.org">
+<head>
+	<meta charset="utf-8">
+	<title>登録確認</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+
+	<h1>登録情報の確認</h1>
+
+	<h2>この情報でアカウント登録を完了する</h2>
+
+	<div class="FormatBox">
+		<p th:text="'メールアドレス：' + ${session.userdb_model.mail}"></p>
+		<p th:text="'パスワード：' + ${session.userdb_model.pw}"></p>
+		<form th:action="@{/addcomplete}" method="POST"><input type="submit" value="登録完了"></form>
+		<form th:action="@{/createaccount}" method="POST"><input type="submit" value="やり直す"></form>
+	</div>
+
+
+<body>
+
+</body>
+</html>

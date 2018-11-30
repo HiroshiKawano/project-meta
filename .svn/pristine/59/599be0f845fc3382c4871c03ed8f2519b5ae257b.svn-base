@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>フロントページのテスト</title>
+	<link type="text/css" rel="stylesheet" href="login_style.css">
+
+</head>
+
+<body>
+
+	<h1>ようこそ</h1>
+
+	<div id="form">
+		<!-- 新規登録ボタン -->
+		<form th:action="@{/createaccount}" method="POST">
+			<div class="submit">
+				<input type="submit" value="新規登録" id="button-blue"/>
+				<div class="ease"></div>
+			</div>
+		</form>
+		<br><br>
+		<!-- ログインボタン -->
+		<form th:action="@{/login}" method="POST">
+			<div class="submit">
+				<input type="submit" value="ログイン" id="button-blue"/>
+				<div class="ease"></div>
+			</div>
+		</form>
+
+		<br>
+
+		<!-- 「ログインせずに使う」ボタン -->
+		<form th:action="@{/bookapi}" method="POST" style="text-align:right;">
+			<input type="submit" value="ゲストとして使用する"
+				style="font: bold 1.5em Verdana;
+					   color: white;
+					   background-color:rgba(00,00,00,0);
+					   border-style:none none solid none;
+					   border-color:#3498db;
+					   font-size:15px;"
+					   >
+		</form>
+
+	</div>
+
+
+
+
+</body>
+</html>

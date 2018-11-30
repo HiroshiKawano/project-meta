@@ -1,0 +1,28 @@
+package com.meta.db;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class DBController {
+	@Autowired SearchHistoryRepository shRepository;
+	@Autowired UserRepository userRepository;
+
+	//フロントページ
+	@RequestMapping(value="/")
+	public String index(Model model) {
+		return "front";
+	}
+
+	//Account作成ページ
+	@RequestMapping(value="/createaccount")
+	public String createaccount(Model model) {
+		return "createaccount";
+	}
+
+	//Account作成用メソッド
+	//@RequestMapping(value="/createaccount")
+
+}

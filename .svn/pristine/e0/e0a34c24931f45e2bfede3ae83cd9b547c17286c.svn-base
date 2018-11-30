@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>アカウント作成ページ</title>
+</head>
+
+<body>
+
+	<h1>アカウント作成ページのテスト</h1>
+	<h2>アカウント作成ページのテスト</h2>
+
+	<p>
+		<a th:href="createaccount">
+			<input type="button" value="アカウントを作成" />
+		</a>
+	</p>
+
+</body>
+</html>

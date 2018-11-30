@@ -1,0 +1,52 @@
+package com.meta.db;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="users")
+public class UserDB {
+
+	@Id private int userID; //UserID
+	private String familyName; //苗字
+	private String firstName; //名前
+	private String mail; //mailアドレス
+	private String pw; //パスワード
+
+	//getter郡
+	public int getId() {
+		return userID;
+	}
+	public String getFamilyName() {
+		return familyName;
+	}
+	public String getFirstName() {
+		return firstName;
+	}
+	public String getMail() {
+		return mail;
+	}
+	public String getPw() {
+		return pw;
+	}
+
+	//setter郡
+	public void setId(int id) {
+		this.userID = id;
+	}
+	public void setFamilyName(String familyName) {
+		this.familyName = familyName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+	public void setPw(String pw) {
+		this.pw = pw;
+	}
+
+
+}

@@ -1,0 +1,118 @@
+package com.meta.db;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
+
+
+@Controller
+@SessionAttributes(value="userdb_model")
+public class DBController {
+
+	@Autowired SearchHistoryRepository shRepository;
+	@Autowired UserRepository userRepository;
+	@Autowired UserDB userdb;
+
+	//セッション用にUserDB(Entityクラス)を「user_model」の名前でモデルに登録
+	@ModelAttribute(value="userdb_model")
+	public UserDB setUser() {
+		return this.userdb;
+	}
+
+	@RequestMapping(value="bookapi")
+	public String mainPage() {
+		return "bookapi";
+	}
+
+	@RequestMapping(value="/")
+	public String index() {
+		return "front"; //front.htmlを表示
+	}
+
+	//フロントページ
+	@RequestMapping(value="createaccount" , method=RequestMethod.POST)
+	public String front() {
+		return "createaccount"; //createaccount.htmlを表示
+	}
+
+	//アカウント登録ページ
+	@RequestMapping(value="createaccount_confirmation" , method=RequestMethod.POST)
+	public String createAccount(
+	//@ValidatedでUserDBで定義した制約（@Pattern、@NotBlank,@Size）をクリアしているか確認
+	@Validated @ModelAttribute(value="userdb_model") UserDB userdb,
+	BindingResult result, //BindingResultは必ず@Validated使用時は必要で@Validatedの次に記述しなければならない
+	Model model) {
+		if(result.hasErrors()) {
+			return "createaccount";
+		}else {
+			return "createaccount_confirmation";
+		}
+	}
+
+	//新規アカウントをUserDBへ登録
+	@RequestMapping(value="addcomplete" , method=RequestMethod.POST)
+	public String addAccount(
+	@ModelAttribute(value="userdb_model") UserDB userdb,
+	Model model) {
+		Optional<UserDB> mailCheck = userRepository.findByMail(userdb.getMail());
+		//アカウント登録時に入力されたメールアドレスをUserDB内で検索し、重複するメールアドレスがなければsaveAndFlushでDBに格納してlogin.htmlを表示
+		if(!mailCheck.isPresent()) {
+			userRepository.saveAndFlush(userdb);
+			List<UserDB> userdb_list = userRepository.findAll();
+			model.addAttribute("userdb_list", userdb_list);
+			return "login";
+		}else {
+			model.addAttribute("mailCheckFalse", "NG");
+			return "createaccount";
+		}
+	}
+
+	//ログインページ表示
+	@RequestMapping(value="login" , method=RequestMethod.POST)
+	public String login() {
+		return "login";
+	}
+
+	//ログイン判定メソッド
+	@RequestMapping(value="login_check" , method=RequestMethod.POST)
+	public String loginChecker(
+	//RequestParamでブラウザで入力された値をもらい変数に代入
+	@RequestParam(value="pw") String pw,
+	@RequestParam(value="mail") String mail,
+	@ModelAttribute(value="userdb_model") UserDB userdb,
+	Model model) {
+		//findByMailでブラウザに入力された値（mail変数の値）をDB内で探す
+		//DB内にブラウザからの値と同じアドレスを見つけたら、Optionalで１件分の「レコード」をDBからもらってmailCheckに格納
+		Optional<UserDB> mailCheck = userRepository.findByMail(mail);
+		//ブラウザで入力されたアドレスをDB内で見つけられmailCheckがnullでなければisPresent()はtrueを返す
+		if(mailCheck.isPresent()) {
+			/*mailCheckにはブラウザで入力されたメールアドレスが該当する「レコード(全てのカラムデータ)」の情報が丸ごと入っているので、
+			そのレコードのパスワードと入力されたパスワードが一致すればログイン成功でメインページを返す*/
+			if(mailCheck.get().getPw().equals(pw)) {
+				System.out.println("pwが一致しました。ログイン成功");
+				return "index";
+			}else {
+				System.out.println("pwが一致しません");
+				model.addAttribute("passCheckFalse", "NG");
+				return "login";
+			}
+		}else{
+			System.out.println("該当するメールアドレスがありません");
+			model.addAttribute("mailCheckFalse", "NG");
+			return "login";
+		}
+	}
+
+
+}

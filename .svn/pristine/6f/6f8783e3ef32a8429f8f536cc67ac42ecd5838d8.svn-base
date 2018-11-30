@@ -1,0 +1,37 @@
+package com.meta.db;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+
+@Controller
+public class BookSearchController {
+	@Autowired LibraryRepository libRepository;
+	@Autowired BookSearchList bsList;
+	@Autowired BookService bService;
+
+	//@RequestMapping(value="/book/search")
+	public String bookConfirm(Model model) {
+
+		/*BookXML bookXML = bService.service(null);
+
+		libRepository.deleteAll();
+		for(int i = 0 ; i < bookXML.getBooklist().get(0).getBs().getLibkeys().get(0).getLibStatus().length(); i++ ) {
+
+			//System.out.println(libraryDto.getResults().get(i).getId());
+			//IDをループで自動連番
+			bsList.setId(i) = bookXML.getBooklist().get(0).getBs().getLibkeys().get(0).getLibStatus().length().get(i).setId(i + 1);
+			libRepository.saveAndFlush(libraryDto.getResults().get(i));
+		}
+		List<LibraryApi> libList = libRepository.findAll();
+
+		libRepository.saveAll(libList);
+		libRepository.flush();
+		//model.addAttribute("libList",libraryDto.getResults());
+		return "library";
+	}*/
+		return null;
+	}
+	
+	bService.service();
+}

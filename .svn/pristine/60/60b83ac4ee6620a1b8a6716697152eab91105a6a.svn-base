@@ -1,0 +1,45 @@
+@charset "UTF-8";
+
+body{
+  background-color:#dddddd;
+  color : #000000;
+  margin-right: auto;
+  margin-left : auto;
+  width:700px;
+}
+
+h1{
+	text-align: center;
+	color: #808080;
+	font-size: 100px;
+}
+h2{
+	text-align: center;
+}
+
+.FormatBox{
+	text-align: center;
+}
+
+.button{
+	width: 500px;
+}
+
+#user_box{
+	text-align: center;
+}
+
+.instruction{
+	text-align: center;
+	color: red;
+}
+
+#test{
+	text-align: center;
+	color: black;
+}
+
+.error{
+	text-align: center;
+	color: red;
+}

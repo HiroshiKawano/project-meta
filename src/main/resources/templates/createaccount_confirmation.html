@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymelear.org">
+<head>
+	<meta charset="utf-8">
+	<title>登録確認</title>
+	<link type="text/css" rel="stylesheet" href="login_style.css">
+</head>
+
+	<h1>ようこそ</h1>
+
+	<h2>この情報でアカウント登録を完了する</h2>
+
+	<div id="form">
+		<!-- 確認用にsession内のメールアドレス・パスワードを再表示 -->
+		<p><input disabled="disabled" type="text" name="mail" th:value="${session.userdb_model.mail}" class="validate[required,custom[mail]] feedback-input" id="email" placeholder="Email" /></p>
+		<p><input disabled="disabled" type="text" name="pw" th:value="${session.userdb_model.pw}" class="validate[required,custom[onlyLetter],length[0,100]] feedback-input" id="pw" placeholder="Password"></p>
+
+	<!-- 登録完了ボタン -->
+		<div class="submit" style="float:left;">
+			<form th:action="@{/addcomplete}" method="POST" style="padding-left:100px;"><input type="submit" value="登録完了" id="button-blue"></form>
+		</div>
+	<!-- やりなおしボタン -->
+		<div class="submit" style="float:left;">
+			<form th:action="@{/createaccount}" method="POST" style="padding-left:20px;"><input type="submit" value="やり直す" id="button-blue"></form>
+		</div>
+	</div>
+
+
+
+<body>
+
+</body>
+</html>

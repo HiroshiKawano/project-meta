@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<script th:inline="text">
+var json = [(${json})];
+console.log(json);
+</script>
+</head>
+<body>
+<script>
+  document.write(json.a);
+  document.write("<br>");
+  document.write(json.b);
+  document.write("<br>");
+</script>
+</body>
+</html>
